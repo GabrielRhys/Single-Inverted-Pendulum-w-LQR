@@ -26,8 +26,8 @@
 #define AS5600_ANGLE_H 0x0E   // raw angle, high byte
 
 const int PENDULUM_MUX_CHANNEL = 2;      // mux channel the pendulum's AS5600 is on
-const int PENDULUM_ZERO_RAW    = 258;    // raw AS5600 count corresponding to "hanging down"
-const float PENDULUM_SIGN        = 1.0;    // flip if angle increases the wrong way
+const int PENDULUM_ZERO_RAW = 258;    // raw AS5600 count corresponding to "hanging down"
+const float PENDULUM_SIGN = 1.0;    // flip if angle increases the wrong way
 
 // Motor driver (IBT-2 style H-bridge) + cart encoder
 const int RPWM = 25, LPWM = 26, R_EN = 27, L_EN = 14;
@@ -36,28 +36,28 @@ const int ENC_A = 18, ENC_B = 19;
 volatile long cartCount = 0;
 
 // Cart geometry / unit conversion
-const float CART_SIGN            = -1.0;               // flip if +x is the wrong direction
-const float CART_TRAVEL_METERS   = 0.40;                // full rail travel
-const float CART_TRAVEL_COUNTS   = 21028.0;              // encoder counts over that travel
-const float METERS_PER_COUNT     = CART_TRAVEL_METERS / CART_TRAVEL_COUNTS;
-const float RAD_PER_COUNT        = (2.0 * PI) / 4096.0;   // AS5600 is a 12-bit sensor (4096 counts/rev)
+const float CART_SIGN  = -1.0;  // flip if +x is the wrong direction
+const float CART_TRAVEL_METERS = 0.40;  // full rail travel
+const float CART_TRAVEL_COUNTS = 21028.0; // encoder counts over that travel
+const float METERS_PER_COUNT = CART_TRAVEL_METERS / CART_TRAVEL_COUNTS;
+const float RAD_PER_COUNT = (2.0 * PI) / 4096.0; // AS5600 is a 12-bit sensor (4096 counts/rev)
 
 // Soft travel limits (set relative to power-on position)
 long CART_MIN_COUNT, CART_MAX_COUNT;
 const long  CART_SAFE_MARGIN = 8000;
 
 // Arming / safety thresholds
-const float ARM_ANGLE  = 0.10;  // rad — must be within this of upright to auto-arm
-const float ARM_VEL    = 0.5;   // rad/s — must be this slow to auto-arm
-const float FALL_LIMIT = 0.6;   // rad — auto-disarm past this
+const float ARM_ANGLE = 0.10; // rad — must be within this of upright to auto-arm
+const float ARM_VEL = 0.5; // rad/s — must be this slow to auto-arm
+const float FALL_LIMIT = 0.6; // rad — auto-disarm past this
 
 // LQR gains: force = -(K0*x + K1*theta + K2*x_dot + K3*theta_dot)
 const float K[4] = {-6, -9.0507, -10, -1.2490}; // [x, theta, x_dot, theta_dot]
 
 // Force -> PWM mapping
-const int MAX_PWM      = 230;
-const int DEADBAND_PWM = 50;    // minimum PWM needed to actually move the cart
-const float FORCE_EPS    = 0.01;  // below this, just stop rather than dither
+const int MAX_PWM = 230;
+const int DEADBAND_PWM = 50; // minimum PWM needed to actually move the cart
+const float FORCE_EPS = 0.01; // below this, just stop rather than dither
 const float FORCE_TO_PWM = 150.0;
 
 // Control loop timing
@@ -77,7 +77,7 @@ int logIndex = 0;
 bool logging = false;
 
 // State
-bool  armed = false;
+bool armed = false;
 float x, theta;
 float dx = 0, dtheta = 0;
 float x_prev = 0, theta_prev = 0;
@@ -153,7 +153,7 @@ void controlStep(float dt) {
   //  Estimate velocities over a sliding window
   static float tAccum = 0;
   tAccum += dt;
-  xBuf[velIdx]  = x;
+  xBuf[velIdx] = x;
   thBuf[velIdx] = theta;
   tBuf[velIdx]  = tAccum;
   int newest = velIdx;
