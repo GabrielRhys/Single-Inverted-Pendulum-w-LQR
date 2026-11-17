@@ -52,7 +52,7 @@ const float ARM_VEL = 0.5; // rad/s — must be this slow to auto-arm
 const float FALL_LIMIT = 0.6; // rad — auto-disarm past this
 
 // LQR gains: force = -(K0*x + K1*theta + K2*x_dot + K3*theta_dot)
-const float K[4] = {-6, -9.0507, -10, -1.2490}; // [x, theta, x_dot, theta_dot]
+const float K[4] = {-0.1000, -3.0137, -0.1974, -0.2562}; // [x, theta, x_dot, theta_dot]
 
 // Force -> PWM mapping
 const int MAX_PWM = 230;
